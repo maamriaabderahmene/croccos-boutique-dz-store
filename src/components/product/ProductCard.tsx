@@ -37,7 +37,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       description: `Proceeding to checkout with ${name}.`,
     });
     
-    // Navigate directly to checkout with default values
+    // Navigate directly to checkout with product details
     navigate('/checkout', {
       state: {
         product: {
@@ -47,8 +47,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           image,
           category,
           quantity: 1,
-          size: null, // Default size will be selected on the product detail page
-          color: null, // Default color will be selected on the product detail page
         }
       }
     });
