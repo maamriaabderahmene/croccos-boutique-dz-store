@@ -19,7 +19,7 @@ import ProductGrid from '@/components/product/ProductGrid';
 const product = {
   id: 1,
   name: "Classic Green T-Shirt",
-  price: 29.99,
+  price: 2999,
   images: [
     "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=1400&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?q=80&w=1400&auto=format&fit=crop",
@@ -39,28 +39,28 @@ const relatedProducts = [
   {
     id: 2,
     name: "Crocco Cap",
-    price: 19.99,
+    price: 1999,
     image: "https://images.unsplash.com/photo-1556306535-0f09a537f0a3?q=80&w=1400&auto=format&fit=crop",
     category: "Accessories",
   },
   {
     id: 3,
     name: "Urban Hoodie",
-    price: 49.99,
+    price: 4999,
     image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1400&auto=format&fit=crop",
     category: "Hoodies",
   },
   {
     id: 4,
     name: "Premium Logo T-Shirt",
-    price: 34.99,
+    price: 3499,
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1400&auto=format&fit=crop",
     category: "T-Shirts",
   },
   {
     id: 5,
     name: "Sport T-Shirt",
-    price: 24.99,
+    price: 2499,
     image: "https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?q=80&w=1400&auto=format&fit=crop",
     category: "T-Shirts",
   },
@@ -85,19 +85,43 @@ const ProductDetail: React.FC = () => {
   };
   
   const handleOrderNow = () => {
+    // Validate that size and color are selected
+    if (!selectedSize) {
+      toast({
+        title: "Please select a size",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!selectedColor) {
+      toast({
+        title: "Please select a color",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     toast({
       title: "Order Initiated",
       description: `Proceeding to checkout with ${product.name} (${selectedColor}, ${selectedSize}) x${quantity}.`,
     });
-    console.log('Order now:', {
-      ...product,
-      size: selectedSize,
-      color: selectedColor,
-      quantity,
-    });
     
-    // Navigate directly to checkout page
-    navigate('/checkout');
+    // Navigate to checkout with product details
+    navigate('/checkout', {
+      state: {
+        product: {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: mainImage,
+          category: product.category,
+          quantity,
+          size: selectedSize,
+          color: selectedColor,
+        }
+      }
+    });
   };
   
   return (
@@ -150,7 +174,7 @@ const ProductDetail: React.FC = () => {
                   {product.rating} ({product.reviews} reviews)
                 </span>
               </div>
-              <p className="text-2xl font-semibold mt-4">${product.price.toFixed(2)}</p>
+              <p className="text-2xl font-semibold mt-4">{product.price.toLocaleString()} DZD</p>
             </div>
             
             <div className="space-y-6 border-t pt-6">

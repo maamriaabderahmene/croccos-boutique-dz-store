@@ -37,7 +37,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
       description: `Proceeding to checkout with ${name}.`,
     });
     
-    navigate('/checkout');
+    // Navigate directly to checkout with default values
+    navigate('/checkout', {
+      state: {
+        product: {
+          id,
+          name,
+          price,
+          image,
+          category,
+          quantity: 1,
+          size: null, // Default size will be selected on the product detail page
+          color: null, // Default color will be selected on the product detail page
+        }
+      }
+    });
   };
   
   return (
@@ -75,7 +89,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <h3 className="font-medium text-base hover:text-crocco transition-colors line-clamp-1">{name}</h3>
         </Link>
         <p className="text-muted-foreground text-sm">{category}</p>
-        <p className="mt-2 text-lg font-semibold">${price.toFixed(2)}</p>
+        <p className="mt-2 text-lg font-semibold">{price.toLocaleString()} DZD</p>
       </CardContent>
       
       <CardFooter className="pt-0">

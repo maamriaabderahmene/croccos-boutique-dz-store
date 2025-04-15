@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Search, ShoppingCart, Menu, X, User } from 'lucide-react';
+import { Search, Menu, X, User } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +22,6 @@ const categories = [
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
@@ -54,7 +52,7 @@ const Navbar = () => {
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Search, Account & Cart */}
+        {/* Search & Account */}
         <div className="hidden md:flex items-center gap-4">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -81,17 +79,6 @@ const Navbar = () => {
               <DropdownMenuItem>Log out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          <Link to="/cart">
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingCart size={20} />
-              {cartCount > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-crocco">
-                  {cartCount}
-                </Badge>
-              )}
-            </Button>
-          </Link>
         </div>
       </div>
 
@@ -121,14 +108,6 @@ const Navbar = () => {
               <Button variant="outline" size="sm">
                 <User size={16} className="mr-2" /> My Account
               </Button>
-              <Link to="/cart">
-                <Button variant="outline" size="sm" className="relative">
-                  <ShoppingCart size={16} className="mr-2" /> Cart
-                  {cartCount > 0 && (
-                    <Badge className="ml-2 bg-crocco">{cartCount}</Badge>
-                  )}
-                </Button>
-              </Link>
             </div>
           </nav>
         </div>
