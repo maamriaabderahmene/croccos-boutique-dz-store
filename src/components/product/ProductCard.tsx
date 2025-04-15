@@ -1,10 +1,11 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Heart } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface ProductCardProps {
   id: number;
@@ -14,7 +15,6 @@ interface ProductCardProps {
   category: string;
   isNew?: boolean;
   isSale?: boolean;
-  onAddToCart: () => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -25,8 +25,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
   category,
   isNew = false,
   isSale = false,
-  onAddToCart,
 }) => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const handleOrderNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    toast({
+      title: "Order Initiated",
+      description: `Proceeding to checkout with ${name}.`,
+    });
+    
+    navigate('/checkout');
+  };
+  
   return (
     <Card className="product-card overflow-hidden h-full flex flex-col">
       <div className="relative aspect-square overflow-hidden">
@@ -68,9 +81,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <CardFooter className="pt-0">
         <Button 
           className="w-full bg-crocco hover:bg-crocco-dark" 
-          onClick={onAddToCart}
+          onClick={handleOrderNow}
         >
-          <ShoppingCart size={16} className="mr-2" /> Add to Cart
+          <ShoppingCart size={16} className="mr-2" /> Order Now
         </Button>
       </CardFooter>
     </Card>

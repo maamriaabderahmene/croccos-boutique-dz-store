@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import {
@@ -69,6 +69,7 @@ const relatedProducts = [
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0]);
   const [selectedColor, setSelectedColor] = useState<string>(product.colors[0]);
@@ -83,17 +84,20 @@ const ProductDetail: React.FC = () => {
     setQuantity(prev => Math.max(prev - 1, 1)); // Min 1 item
   };
   
-  const handleAddToCart = () => {
+  const handleOrderNow = () => {
     toast({
-      title: "Added to Cart",
-      description: `${product.name} (${selectedColor}, ${selectedSize}) x${quantity} added to your cart.`,
+      title: "Order Initiated",
+      description: `Proceeding to checkout with ${product.name} (${selectedColor}, ${selectedSize}) x${quantity}.`,
     });
-    console.log('Added to cart:', {
+    console.log('Order now:', {
       ...product,
       size: selectedSize,
       color: selectedColor,
       quantity,
     });
+    
+    // Navigate directly to checkout page
+    navigate('/checkout');
   };
   
   return (
@@ -236,13 +240,13 @@ const ProductDetail: React.FC = () => {
                 </div>
               </div>
               
-              {/* Action Buttons */}
+              {/* Order Now Button */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <Button
-                  onClick={handleAddToCart}
+                  onClick={handleOrderNow}
                   className="flex-1 bg-crocco hover:bg-crocco-dark"
                 >
-                  <ShoppingCart size={18} className="mr-2" /> Add to Cart
+                  <ShoppingCart size={18} className="mr-2" /> Order Now
                 </Button>
                 <Button variant="outline" className="flex-1">
                   <Heart size={18} className="mr-2" /> Wishlist
